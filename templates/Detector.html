@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='uploader.js') }}" defer=""></script>
+    <meta name="generator" content="Nicepage 6.9.2, nicepage.com">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    
+
+    
+    
+    
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "ImageAnalyzer"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Detector">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+  <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
+  <body data-path-to-root="./" data-include-products="false" class="u-body u-xl-mode" data-lang="en"><header class="u-border-4 u-border-grey-75 u-border-no-left u-border-no-right u-clearfix u-header u-header" id="sec-d2af"><div class="u-clearfix u-sheet u-sheet-1">
+        <p class="u-align-center-md u-align-center-sm u-align-center-xs u-text u-text-default u-text-palette-1-base u-text-1">ImageAnalyzer.VIP</p>
+        <nav class="u-align-center-md u-align-center-sm u-align-center-xs u-menu u-menu-one-level u-offcanvas u-menu-1" data-responsive-from="XS">
+          <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
+            <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
+              <svg class="u-svg-link" viewBox="0 0 24 24"><use xlink:href="#menu-hamburger"></use></svg>
+              <svg class="u-svg-content" version="1.1" id="menu-hamburger" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g><rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
+</g></svg>
+            </a>
+          </div>
+          <div class="u-custom-menu u-nav-container">
+            <ul class="u-nav u-unstyled u-nav-1"><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="/" style="padding: 10px 20px;">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="/classify" style="padding: 10px 20px;">Classifier</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="/detect" style="padding: 10px 20px;">Detector</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="/about" style="padding: 10px 20px;">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="/contact" style="padding: 10px 20px;">Contact</a>
+</li></ul>
+          </div>
+          <div class="u-custom-menu u-nav-container-collapse">
+            <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+              <div class="u-inner-container-layout u-sidenav-overflow">
+                <div class="u-menu-close"></div>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2"><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/">Home</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/classify">Classifier</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/detect">Detector</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/about">About</a>
+</li><li class="u-nav-item"><a class="u-button-style u-nav-link" href="/contact">Contact</a>
+</li></ul>
+              </div>
+            </div>
+            <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+          </div>
+        </nav>
+      </div></header>
+      <section class="u-clearfix u-section-1" id="sec-6ae7">
+        <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+          <div class="u-border-2 u-border-grey-75 u-clearfix u-custom-html u-expanded-width u-custom-html-1" style="margin-top:33px; margin-bottom:33px;">
+            <h3 style="padding: 0; text-align: center; margin-bottom: -10px;">Object Detection</h3>
+            
+            <center>
+              <div style="width: 100%; max-width: 650px; padding: 2rem; background-color: white; border-radius: 8px; text-align: center;">
+              <div id="drop-area" style="padding: 2rem; border: 2px dashed #007bff; border-radius: 5px; cursor: pointer; color: #333;">
+            <form class="my-form" action="/detect" method="post" enctype="multipart/form-data">
+              <p style="margin: 0 0 1rem 0; font-size: 1.2rem; color: #555;">Drag and Drop File(s) here</p>
+              <p style="font-size: 1.2rem; color: #555;">OR</p>
+              <input type="file" id="fileElem" name="file" multiple accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
+              <label for="fileElem" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Select File(s)</label>
+              <ul id="file-list" style="list-style: none; padding: 0; margin-top: 20px; text-align: left; max-height: 100px; overflow-y: auto;"></ul>
+              <button id="detect-btn" type="submit" style="display: none; background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 20px; cursor: pointer; width: 590px;">DETECT</button>
+            </form>
+          <div id="detection-results">
+              {% for results in detection_results %}
+                  <div>
+                      {% for result in results %}
+                          Detected Object: {{ result.class_id }}<br>
+                          Confidence: {{ result.score }}<br>
+                          Coordinates: ({{ result.x1 }}, {{ result.y1 }}, {{ result.x2 }}, {{ result.y2 }})
+                      {% endfor %}
+                  </div>
+              {% endfor %}
+          </div> 
+    <img class="img-fluid my-2" width="100%" height="auto" id="annotatedImage" >
+
+        
+        </center>
+     
+        </div>
+      </div>
+    </section>
+
+    
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-84a2"><div class="u-clearfix u-sheet u-sheet-1">
+        <p class="u-small-text u-text u-text-variant u-text-1">Lavanya Arora - @00575871<br>FYP Project​ - Dr Mahmoud AlQerom<br>Dr Ahmed AlNaswarah<br>
+        </p>
+      </div></footer>
+      
+</body></html>

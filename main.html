@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Detection with YOLO</title>
+    <link rel="stylesheet" href="./bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <style>
+        .contaier{
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="container">
+    <div>
+    <p class="fw-bold fs-2">Braille translation powered with yolov8, computer vision model</p>
+
+    <p class="lead fs-2">Select image to see the translation</p>
+    <div class="d-flex gap-3">
+        <input class="form-control w-25" type="file" id="uploadInput" accept="image/*">
+        <button class="btn btn-info fw-bold text-light" onclick="uploadImage()">Upload Image</button>
+        <a href="/" class="btn btn-danger fw-bold text-light">Back</a>
+
+
+    </div>
+
+     
+    <div class="container">
+        <img class="img-fluid my-2" width="100%"  id="annotatedImage" >
+    
+    <div id="result"></div>
+
+    </div>
+    
+    
+    <script>
+        async function uploadImage() {
+            const formData = new FormData();
+            const fileInput = document.getElementById('uploadInput');
+            formData.append('image', fileInput.files[0]);
+
+            const response = await fetch('http://localhost:8000/detect', {
+                method: 'POST',
+                body: formData
+            });
+
+            const responseData = await response.json();
+
+            // Display detection results
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<h2>Detection Results:</h2>';
+            responseData.detections.forEach(det => {
+                resultDiv.innerHTML += `<p>Class: ${det.class}, Confidence: ${det.confidence}</p>`;
+            });
+
+            // Display annotated image
+            const annotatedImage = document.getElementById('annotatedImage');
+            annotatedImage.src = `data:image/jpeg;base64,${responseData.annotated_image}`;
+            annotatedImage.style.display = 'block';
+        }
+    </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+torch
+torchvision
+ultralytics
+gunicorn
+uuid
+
+tensorflow== 2.15.0
+flask>=2.0.0,<3.0.0
+uvicorn==0.20.0
+numpy==1.26.3
+Pillow==10.2.0
+python-multipart==0.0.5

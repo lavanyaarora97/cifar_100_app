@@ -1,0 +1,9 @@
+services:
+- type: web
+  name: ImageAnalyzer.VIP
+  env: python
+  plan: standard
+  buildCommand: "pip install -r requirements.txt"
+  startCommand: "gunicorn --config gunicorn_config.py app:app"
+    generateValue: true
+  healthCheckPath: /
