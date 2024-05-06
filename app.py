@@ -1,10 +1,19 @@
 from flask import Flask, request, render_template, jsonify
-from torchvision import models, transforms
-import torch
-import torch.nn as nn
+
+import os
+import math
 from PIL import Image
 import io
 from ultralytics import YOLO  # Ensure this is correctly installed
+
+import base64
+import cv2
+
+import logging
+import numpy as np
+from io import BytesIO
+from PIL import Image
+import tensorflow as tf
 
 app = Flask(__name__)
 
@@ -15,10 +24,10 @@ app = Flask(__name__)
 #   transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 #])
 
-inference_transform = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-])
+# inference_transform = transforms.Compose([
+#     transforms.ToTensor(),
+#     transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+# ])
 
 @app.route('/')
 def home():
@@ -40,106 +49,104 @@ def classifier():
 def detector():
     return render_template("Detector.html")
 
-# Load the classifier model
-#def load_classifier_model():
-#    model = models.resnet50(pretrained=False)
-#    num_ftrs = model.fc.in_features
-#    model.fc = nn.Sequential(
-#        nn.Linear(num_ftrs, 100)  # Assuming 100 classes
-#    )
-#    model.load_state_dict(torch.load('models/classifier.pth', map_location=torch.device('cpu')))
-#    model.eval()
-#    return model
+MODEL = tf.keras.models.load_model("./finetunedCifar100.h5")
+CLASS_NAMES = [
+    'apple', 'aquarium_fish', 'baby', 'bear', 'beaver', 'bed', 'bee', 'beetle', 'bicycle', 'bottle',
+    'bowl', 'boy', 'bridge', 'bus', 'butterfly', 'camel', 'can', 'castle', 'caterpillar', 'cattle',
+    'chair', 'chimpanzee', 'clock', 'cloud', 'cockroach', 'couch', 'cra', 'crocodile', 'cup', 'dinosaur',
+    'dolphin', 'elephant', 'flatfish', 'forest', 'fox', 'girl', 'hamster', 'house', 'kangaroo', 'keyboard',
+    'lamp', 'lawn_mower', 'leopard', 'lion', 'lizard', 'lobster', 'man', 'maple_tree', 'motorcycle', 'mountain',
+    'mouse', 'mushroom', 'oak_tree', 'orange', 'orchid', 'otter', 'palm_tree', 'pear', 'pickup_truck', 'pine_tree',
+    'plain', 'plate', 'poppy', 'porcupine', 'possum', 'rabbit', 'raccoon', 'ray', 'road', 'rocket', 'rose', 'sea',
+    'seal', 'shark', 'shrew', 'skunk', 'skyscraper', 'snail', 'snake', 'spider', 'squirrel', 'streetcar', 'sunflower',
+    'sweet_pepper', 'table', 'tank', 'telephone', 'television', 'tiger', 'tractor', 'train', 'trout', 'tulip', 'turtle',
+    'wardrobe', 'whale', 'willow_tree', 'wolf', 'woman', 'worm'
+]
 
-#classifier_model = load_classifier_model()
-
-
-def load_classifier_model():
-    model = models.resnet50(pretrained=True)  # Start with a ResNet-50 model
-    num_ftrs = model.fc.in_features
-    # Update this definition to match the saved model's architecture
-    model.fc = nn.Sequential(
-    nn.Dropout(0.5),
-    nn.Linear(num_ftrs, 1024),
-    nn.Dropout(0.2),
-    nn.Linear(1024, 512),
-    nn.Dropout(0.2),
-    nn.Linear(512, 256),
-    nn.Dropout(0.2),
-    nn.Linear(256, 128),
-    nn.Dropout(0.2),
-    nn.Linear(128, 100)
-    )
-    model.load_state_dict(torch.load('models/classifier.pth', map_location=torch.device('cpu')))
-    model.eval()
-    return model
-
-classifier_model = load_classifier_model()
-
-# Load the detector model
-# def load_detector_model():
-#    model = YOLO('models/detector.pt', map_location='cpu')  # Adjust based on your actual saved model
-#    model.eval()
-#    return model
-
-#detector_model = load_detector_model()
-
-def load_detector_model():
-    # Load the pre-trained YOLOv8s model from Ultralytics
-    model = torch.hub.load('ultralytics/yolov8', 'yolov8s', pretrained=True)
-    model.to('cpu')  # Move the model to CPU
-    model.eval()  # Set the model to evaluation mode
-    return model
-
-detector_model = load_detector_model()
-
-@app.route('/classify', methods=['GET', 'POST'])
-def classify():
-    if request.method == 'POST':
-        files = request.files.getlist('file')
-        results = []
-        for file in files:
-            if file:
-                image = Image.open(file.stream)
-                if image.mode != 'RGB':
-                    image = image.convert('RGB')
-                image_tensor = inference_transform(image).unsqueeze(0)  # Apply the transformation
-                with torch.no_grad():
-                    outputs = classifier_model(image_tensor)
-                    _, predicted = torch.max(outputs, 1)
-                    results.append(predicted.item())
-        return render_template('Classifier.html', classification_results=results)
-    return render_template('Classifier.html')
-
-# @app.route('/detect', methods=['GET', 'POST'])
-# def detect():
-#    if request.method == 'POST':
-#        files = request.files.getlist('file')
-#        results = []
-#        for file in files:
-#            if file:
-#                image = Image.open(file.stream)
-#                if image.mode != 'RGB':
-#                    image = image.convert('RGB')
-#                results.append(detector_model(image).pandas().xyxy[0].to_dict(orient='records'))  # Using pandas for easier manipulation
-#        return render_template('Detector.html', detection_results=results)
-#    return render_template('Detector.html')
-
-
-@app.route('/detect', methods=['POST'])
-def detect():
+model = YOLO('yolov8n.pt')
+names = model.names
+@app.route('/detection', methods=['GET', 'POST'])
+def detect_objects():
     if 'file' not in request.files:
+        return jsonify({'error': 'No image part in the request'}), 400
+
+    image = request.files['file']
+
+    if image.filename == '':
+        return jsonify({'error': 'No selected image'}), 400
+
+    # Save the uploaded image temporarily
+    image.save("temp.jpg")
+
+    # Use YOLO model to detect objects in the image
+    results = model("temp.jpg")  # Assuming `model` is defined somewhere
+
+    # Process detection results and prepare response
+    detections = []
+    img = cv2.imread("temp.jpg")
+
+    for r in results:
+        boxes = r.boxes
+        for box in boxes:
+            conf = math.ceil((box.conf[0] * 100)) / 100
+            for c in box.cls:
+                cls = names[int(c)]
+                detections.append({"class": cls, "confidence": conf})
+                # Draw bounding box and label on the image
+                xmin, ymin, xmax, ymax = map(int, box.xyxy[0])
+                cv2.rectangle(img, (xmin, ymin), (xmax, ymax), (0, 0, 255), 2)
+                cv2.putText(img, f"{cls} ", (xmin, ymin - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+                print(cls)
+
+    # Encode annotated image to base64
+    _, img_base64 = cv2.imencode('.jpg', img)
+    img_base64 = base64.b64encode(img_base64).decode('utf-8')
+
+    # Clean up temporary image file
+    os.remove("temp.jpg")
+
+    # Prepare JSON response
+    response_data = {
+        "detections": detections,
+        "annotated_image": img_base64
+    }
+
+    return jsonify(response_data)
+
+def read_file_as_image(data) -> np.ndarray:
+    image = np.array(Image.open(BytesIO(data)).convert("RGB"))
+    resized_image = np.array(Image.fromarray(image).resize((32, 32)))
+    logging.info("Resized Image Shape: %s", resized_image.shape)
+    return resized_image
+
+@app.route("/upload", methods=["POST"])
+def predict():
+    file = request.files.get('file')
+    if not file:
         return jsonify({'error': 'No file part'}), 400
-    file = request.files['file']
-    image = Image.open(file.stream)
-    if image.mode != 'RGB':
-        image = image.convert('RGB')
-    
-    # Prepare image for detection
-    results = detector_model(image, size=640)  # Size can be adjusted based on model requirements
-    detections = results.pandas().xyxy[0]  # Extracting results to DataFrame
-    
-    return jsonify(detections.to_dict(orient='records'))
+
+    image = read_file_as_image(file.read())
+
+    img_batch = tf.expand_dims(image, 0)
+    predictions = MODEL.predict(img_batch / 255)
+
+    top_predictions_indices = np.argsort(predictions[0])[::-1][:4]
+
+    result = []
+    for i, class_index in enumerate(top_predictions_indices):
+        class_name = CLASS_NAMES[class_index]
+        confidence = predictions[0][class_index]
+
+        css_value = 'green' if i == 0 else 'red'
+
+        result.append({
+            'class': class_name,
+            'confidence': float(confidence) * 100,
+            'css': css_value
+        })
+
+    return jsonify(result)
+
 
 
 if __name__ == '__main__':
