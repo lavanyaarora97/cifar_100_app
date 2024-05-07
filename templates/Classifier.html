@@ -84,7 +84,7 @@
               {% for results in detection_results %}
                   <div>
                       {% for result in results %}
-                          Detected Object: {{ result.class_id }}<br>
+                          Matched Class: {{ result.class_id }}<br>
                           Confidence: {{ result.score }}<br>
                           Coordinates: ({{ result.x1 }}, {{ result.y1 }}, {{ result.x2 }}, {{ result.y2 }})
                       {% endfor %}
