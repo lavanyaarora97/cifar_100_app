@@ -1,25 +1,32 @@
 let selectedFiles = [];
-
+let imgs = ''
 function handleFiles(files) {
     selectedFiles = selectedFiles.concat(Array.from(files)); // Combine old and new files
     const fileList = document.getElementById("file-list");
     fileList.innerHTML = ''; // Clear the list to redraw it
+    
+const annotatedImage = document.getElementById('annotatedImage');
+console.log(annotatedImage)
     selectedFiles.forEach(file => {
-        const li = document.createElement("li");
-        li.textContent = file.name;
-        li.style.padding = '5px 0';
-        fileList.appendChild(li);
+        const li = document.createElement("div");
+        const image = document.createElement("img");
+        image.src = URL.createObjectURL(file); // Set the image source to the file URL
+        image.style.width = '300px'; // Set max width to keep images within a reasonable size
+        image.style.height = '300px'; // Set max height to keep images within a reasonable size
+        
+        li.style.height ='300px'
+        li.appendChild(image); // Append the image to the list item
+        fileList.appendChild(li); // Append the list item to the file list
     });
     // document.getElementById("classify-btn").style.display = 'block'; // Make sure this ID matches your submit button for classification
     // document.getElementById("detect-btn").style.display = 'block';  // Make sure this ID matches your submit button for detection
 
-    console.log(selectedFiles)
+    console.log(selectedFiles[0])
     uploadImage()
 
     
 }
-const annotatedImage = document.getElementById('annotatedImage');
-console.log(annotatedImage)
+
 async function uploadImage() {
     console.log(1)
     const formData = new FormData();
@@ -57,14 +64,14 @@ async function uploadImage() {
         results.appendChild(detectionDiv);
         selectedFiles = []
     });
-    //  // Display annotated image
-    //  if (responseData.annotated_image) {
+     // Display annotated image
+     if (responseData.annotated_image) {
         
-    //     annotatedImage.src = `data:image/jpeg;base64,${responseData.annotated_image}`;
-    //     console.log('show')
-    //     annotatedImage.style.display = 'block';
+        annotatedImage.src = `${selectedFiles[0]}`;
+        console.log('show')
+        annotatedImage.style.display = 'block';
         
-    //  }
+     }
     
 }
 
