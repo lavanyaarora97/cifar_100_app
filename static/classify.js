@@ -26,7 +26,7 @@ async function uploadImage() {
     //const fileInput = document.getElementById('uploadInput');
     formData.append('file', selectedFiles[0]);
 
-    const response = await fetch("http://127.0.0.1:10000/upload", {
+    const response = await fetch("https://cifar-100-app.onrender.com/upload", {
         method: 'POST',
         body: formData
     });
