@@ -26,7 +26,7 @@
         //const fileInput = document.getElementById('uploadInput');
         formData.append('file', selectedFiles[0]);
 
-        const response = await fetch("http://127.0.0.1:10000/detection", {
+        const response = await fetch("https://cifar-100-app.onrender.com/detection", {
             method: 'POST',
             body: formData
         });
