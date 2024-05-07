@@ -11,7 +11,7 @@ console.log(annotatedImage)
         const li = document.createElement("div");
         const image = document.createElement("img");
         image.src = URL.createObjectURL(file); // Set the image source to the file URL
-        image.style.width = '300px'; // Set max width to keep images within a reasonable size
+        image.style.width = '800px'; // Set max width to keep images within a reasonable size
         image.style.height = '300px'; // Set max height to keep images within a reasonable size
         
         li.style.height ='300px'
