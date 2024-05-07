@@ -18,7 +18,7 @@ from flask_cors import CORS  # Import the CORS class
 
 app = Flask(__name__)
 #CORS(app, resources={r"*": {"origins": "*"}})
-CORS.init_app(app)  # Allow requests from all origins
+CORS().init_app(app=app)  # Allow requests from all origins
 
 # Define transformations for the classifier
 #classifier_transform = transforms.Compose([
