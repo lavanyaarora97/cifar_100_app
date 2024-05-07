@@ -48,7 +48,7 @@ async function uploadImage() {
     if(responseData){
     responseData.forEach(detections => {
         const detectionDiv = document.createElement('div');
-        detectionDiv.textContent = 'Detected Objects:';
+        detectionDiv.textContent = 'Detected Classes:';
         
             const detItem = document.createElement('p');
             detItem.textContent = `Object Class: ${detections.class}, Confidence: ${detections.confidence.toFixed(2)}%`;
