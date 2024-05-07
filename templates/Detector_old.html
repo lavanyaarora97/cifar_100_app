@@ -2,187 +2,22 @@
 <html style="font-size: 16px;" lang="en"><head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
+
     <meta name="keywords" content="">
     <meta name="description" content="">
-    <title>Classifier</title>
+    <title>Detector</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='nicepage.css') }}" media="screen">
     <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}" defer=""></script>
     <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='nicepage.js') }}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{{ url_for('static', filename='uploader.js') }}" defer=""></script>
     <meta name="generator" content="Nicepage 6.9.2, nicepage.com">
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    
+
     
     
-    <style type="text/css">
-      th{
-          text-align: center;
-          font-size: 20px;
-      }
-
-      td{
-          text-align: center;
-          font-size: 18px;
-      }
-
-      .second-main{
-background-image:linear-gradient(rgba(0, 0, 0, 0.71),rgba(0, 0, 0, 0.7)),url('b4.jpg');
-background-size: cover;
-background-position: center;
-height: 100vh;   
-}
-
-
-h1{
-margin-top: 0;
-margin-bottom: 20px;
-font-size: 240%;
-font-weight: 400;
-letter-spacing: 1px;
-word-spacing: 3px;
-color: #f0e3e3;
-}
-
-h3
-{
-color:#f9d89c!important;
-}
-
-.result-img
-{
-width: 500px;
-height: 250px;
-border : 2px solid #3b6978;
-}
-
-th
-{
-color: #cceabb;
-}
-
-.header
-{
-  width: 100%;
-  padding-top: 5px;
-}
-.info
-{
-  padding-top: 5px;
-  width: 100%;
-  margin-top: 1%;
-
-}
-
-.header-text
-{
-letter-spacing: 1px;
-}
-
-.table-custom
-{
-width: 60%;
-}
-
-@media screen and (max-width: 615px)
-{
-
-th
-{
-  font-size: 17px!important;
-}
-
-td
-{
-  font-size: 16px!important;
-}
-.header-text
-{
-  letter-spacing: 1px;
-  font-size: 22px!important;    
-}
-
-.result-img
-{
-  width: 200px;
-  height: 200px;
-  border : 2px solid #3b6978;
-}
-.header
-{
-  margin-top: 5%!important;
-}
-.info
-{
-  margin-top: 10%!important;
-}
-
-.table-custom
-{
-  width: 80%;
-}
-}
-
-@media screen and (min-width: 615px) and (max-width: 915px)
-{
-.result-img
-{
-  width: 250px;
-  height: 250px;
-  border : 2px solid #3b6978;
-}
-}
-
-.main-nav {
-
-list-style: none;
-float: right;
-margin-left: 10px
-
-}
-
-.main-nav li {
-display: inline-block;
-
-margin-left: 70px;
-margin-top: 40px;
-}
-
-.main-nav li a:link,
-.main-nav li a:visited {
-letter-spacing: 2px;
-padding: 8px 0 8px 0;
-color: white;
-text-decoration: none;
-text-transform: uppercase;
-font-size: 90%;
-border-bottom: 2px solid transparent;
-transition: border-bottom 0.2s;
-}
-
-
-.main-nav li a:hover,
-.main-nav li a:active {
-border-bottom: 2px solid #f9d89c;
-
-}
-
-
-.myFile {
-position: relative;
-overflow: hidden;
-float: left;
-clear: left;
-}
-.myFile input[type="file"] {
-display: block;
-position: absolute;
-top: 0;
-right: 0;
-opacity: 0;
-font-size: 100px;
-filter: alpha(opacity=0);
-cursor: pointer;
-}
-  </style>
     
     <script type="application/ld+json">{
 		"@context": "http://schema.org",
@@ -190,7 +25,7 @@ cursor: pointer;
 		"name": "ImageAnalyzer"
 }</script>
     <meta name="theme-color" content="#478ac9">
-    <meta property="og:title" content="Classifier">
+    <meta property="og:title" content="Detector">
     <meta property="og:description" content="">
     <meta property="og:type" content="website">
   <meta data-intl-tel-input-cdn-path="intlTelInput/"></head>
@@ -228,55 +63,46 @@ cursor: pointer;
           </div>
         </nav>
       </div></header>
+      <section class="u-clearfix u-section-1" id="sec-6ae7">
+        <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+          <div class="u-border-2 u-border-grey-75 u-clearfix u-custom-html u-expanded-width u-custom-html-1" style="margin-top:33px; margin-bottom:33px;">
+            <h3 style="padding: 0; text-align: center; margin-bottom: -10px;">Object Detection</h3>
+            
+            <center>
+              <div style="width: 100%; max-width: 650px; padding: 2rem; background-color: white; border-radius: 8px; text-align: center;">
+              <div id="drop-area" style="padding: 2rem; border: 2px dashed #007bff; border-radius: 5px; cursor: pointer; color: #333;">
+            <form class="my-form" action="/detect" method="post" enctype="multipart/form-data">
+              <p style="margin: 0 0 1rem 0; font-size: 1.2rem; color: #555;">Drag and Drop File(s) here</p>
+              <p style="font-size: 1.2rem; color: #555;">OR</p>
+              <input type="file" id="fileElem" name="file" multiple accept="image/*" onchange="handleFiles(this.files)" style="display: none;">
+              <label for="fileElem" style="display: inline-block; background-color: #007bff; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Select File(s)</label>
+              <ul id="file-list" style="list-style: none; padding: 0; margin-top: 20px; text-align: left; max-height: 100px; overflow-y: auto;"></ul>
+              <button id="detect-btn" type="submit" style="display: none; background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 20px; cursor: pointer; width: 590px;">DETECT</button>
+            </form>
+          <div id="detection-results">
+              {% for results in detection_results %}
+                  <div>
+                      {% for result in results %}
+                          Detected Object: {{ result.class_id }}<br>
+                          Confidence: {{ result.score }}<br>
+                          Coordinates: ({{ result.x1 }}, {{ result.y1 }}, {{ result.x2 }}, {{ result.y2 }})
+                      {% endfor %}
+                  </div>
+              {% endfor %}
+          </div> 
+    <img class="img-fluid my-2" width="100%" height="auto" id="annotatedImage" >
 
-      <div class = "header">
-        <row style = "width: 100% ; display: flex; justify-content: center;">
-            <h3 class="header-text">Uploaded Image</h3>
-        </row>
-        <row style = "width: 100% ; display: flex; justify-content: center;">
-            <img class = "result-img" src={{url_for('static', filename = 'images/'+ img)}}>
-        </row>
-    </div>
+        
+        </center>
+     
+        </div>
+      </div>
+    </section>
 
-    <div class = "info">
     
-        <row style = "width: 100% ; display: flex; justify-content: center;">
-            <h3 class = "header-text">Model Prediction</h3>
-        </row>
-        <row style = "width: 100%; display: flex; justify-content: center;">
-            <table class="table-bordered text-light table-custom">
-                <tr>
-                    <th>Rank</th>
-                    <th>Class</th>
-                    <th>Probability</th>
-                </tr>
-                <tr>
-                    <td>1st</td>
-                    <td>{{ predictions.class1 }}</td>
-                    <td>{{ predictions.prob1 }} %</td>
-                  </tr>
-                  <tr>
-                    <td>2nd</td>
-                    <td>{{ predictions.class2 }}</td>                                                         
-                    <td>{{ predictions.prob2 }} %</td>                                                      
-                </tr>                                                                                                               
-                <tr>
-                    <td>3rd</td>
-                    <td>{{ predictions.class3 }}</td>
-                    <td>{{ predictions.prob3 }} %</td>
-                  </tr>
-            </table>
-        </row>
-    </div>    
-
     <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-84a2"><div class="u-clearfix u-sheet u-sheet-1">
         <p class="u-small-text u-text u-text-variant u-text-1">Lavanya Arora - @00575871<br>FYP Project​ - Dr Mahmoud AlQerom<br>Dr Ahmed AlNaswarah<br>
         </p>
       </div></footer>
-
-    </section><span style="height: 64px; width: 64px; margin-left: 0px; margin-right: auto; margin-top: 0px; background-image: none; right: 20px; bottom: 20px; padding: 15px" class="u-back-to-top u-icon u-icon-circle u-opacity u-opacity-85 u-palette-1-base" data-href="#">
-        <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 551.13 551.13"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-1d98"></use></svg>
-        <svg class="u-svg-content" enable-background="new 0 0 551.13 551.13" viewBox="0 0 551.13 551.13" xmlns="http://www.w3.org/2000/svg" id="svg-1d98"><path d="m275.565 189.451 223.897 223.897h51.668l-275.565-275.565-275.565 275.565h51.668z"></path></svg>
-    </span>
-
+      
 </body></html>
