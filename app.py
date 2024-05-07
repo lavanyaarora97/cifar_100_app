@@ -14,8 +14,10 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 import tensorflow as tf
+from flask_cors import CORS  # Import the CORS class
 
 app = Flask(__name__)
+CORS(app, resources={r"*": {"origins": "*"}})
 
 # Define transformations for the classifier
 #classifier_transform = transforms.Compose([
